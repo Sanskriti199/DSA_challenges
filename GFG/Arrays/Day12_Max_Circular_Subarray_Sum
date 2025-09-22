@@ -1,0 +1,32 @@
+class Solution {
+  public:
+    int maxCircularSum(vector<int> &arr) {
+        // code here
+        int a=0;
+        int b=0;
+        int c=0;
+        int maxsum=arr[0];
+        int minsum=arr[0];
+        
+        for(int i=0; i<arr.size();i++){
+            
+            b=max(b+arr[i],arr[i]);
+            
+            maxsum=max(maxsum,b);
+            
+            c=min(c+arr[i],arr[i]);
+            
+            minsum=min(minsum,c);
+            
+            a=a+arr[i];
+        }
+        
+        int nsum=maxsum;
+        int csum=a-minsum;
+        
+        if(minsum==a)
+        return nsum;
+        
+        return max(nsum,csum);
+    }
+};
