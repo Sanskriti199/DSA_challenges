@@ -1,0 +1,27 @@
+class Solution {
+  public:
+    int myAtoi(string& s) {
+        // code here
+        int a=1, b=0,c=0;
+        
+        while(s[c]==' '){
+            c++;
+        }
+        
+        if(s[c]=='-'|| s[c]=='+'){
+            if(s[c++]=='-')
+            a=-1;
+        }
+        
+        while(s[c]>='0'&&s[c]<='9'){
+            
+            if(b>INT_MAX/10 ||(b==INT_MAX/10&& s[c]-'0'>7)){
+                
+                return a==1?INT_MAX:INT_MIN;
+         
+            }
+            b=10*b+(s[c++]-'0');
+        }
+        return b*a;
+    }
+};
