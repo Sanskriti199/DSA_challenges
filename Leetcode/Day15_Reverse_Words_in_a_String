@@ -1,0 +1,16 @@
+class Solution {
+public:
+    string reverseWords(string s) {
+        stringstream a(s);
+        string b, c;
+        while (a >> b) {
+            if (!c.empty()) {
+                c = b + " " + c;
+            } else {
+                c = b;
+            }
+        }
+        return c;
+    }
+    
+};
