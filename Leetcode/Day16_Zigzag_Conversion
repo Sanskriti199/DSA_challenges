@@ -1,0 +1,32 @@
+class Solution {
+public:
+    string convert(string a, int b) {
+        if (b == 1 || a.length() <= b) {
+            return a;
+        }
+
+        vector<string> c(b); 
+        
+        int r = 0; 
+        int d = 1; 
+
+        for (char x : a) {
+            c[r] += x;
+
+            if (r == 0) {
+                d = 1;
+            } else if (r == b - 1) {
+                d = -1;
+            }
+
+            r += d;
+        }
+
+        string R = "";
+        for (const string& s : c) {
+            R += s;
+        }
+
+        return R;
+    }
+};
