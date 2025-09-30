@@ -1,0 +1,18 @@
+
+class Solution {
+  public:
+  const int MAX_CHAR=26;
+    char nonRepeatingChar(const string &s) {
+        //  code here
+        vector<int>freq(MAX_CHAR,0);
+        for(char c:s){
+            freq[c-'a']++;
+        }
+        for(char c:s){
+            if(freq[c-'a']==1){
+                return c;
+            }
+        }
+        return '$';
+    }
+};
