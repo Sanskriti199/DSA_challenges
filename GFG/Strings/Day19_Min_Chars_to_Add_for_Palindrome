@@ -1,0 +1,59 @@
+class Solution {
+  public:
+  class manacher{
+      public:
+      
+      vector<int>p;
+      string ms;
+      
+      manacher(string&s){
+          ms="@";
+          
+          for(char c:s){
+              ms+="#"+string(1,c);
+          }
+          ms+="#$";
+          runManacher();
+      }
+      void runManacher(){
+          int n=ms.size();
+          p.assign(n,0);
+          int l=0,r=0;
+          
+          for(int i=1;i<n-1;i++){
+              if(i<r)
+              p[i]=min(r-i, p[r+l-i]);
+              
+              while(ms[i+1+p[i]]==ms[i-1-p[i]])
+              ++p[i];
+              
+              if(i+p[i>r]){
+                  l=i-p[i];
+                  r=i+p[i];
+              }
+          }
+      }
+      int getlongest(int cen,int odd){
+          int pos=2*cen+2+!odd;
+          return p[pos];
+      }
+      
+      bool check (int l,int r){
+          int len=r-l+1;
+          int longest=getlongest((l+r)/2,len%2);
+          return len<=longest;
+      }
+  };
+    int minChar(string &s) {
+        // code here
+        int n=s.size();
+        manacher m(s);
+        
+        for(int i=n-1;i>=0;--i){
+            
+            if(m.check(0,i))
+            return n-(i+1);
+        }
+        return n-1;
+    }
+};
