@@ -1,0 +1,42 @@
+class RandomizedSet {
+    private:
+    vector<int> vals;
+    unordered_map<int, int> val_to_index;
+public:
+    RandomizedSet() {
+        
+    }
+    
+    bool insert(int val) {
+        if (val_to_index.count(val)) {
+            return false;
+        }
+        
+        vals.push_back(val);
+        val_to_index[val] = vals.size() - 1;
+        
+        return true;
+    }
+    
+    bool remove(int val) {
+        if (!val_to_index.count(val)) {
+            return false;
+        }
+        
+        int index_to_remove = val_to_index[val];
+        int last_element = vals.back();
+        
+        vals[index_to_remove] = last_element;
+        val_to_index[last_element] = index_to_remove;
+        
+        vals.pop_back();
+        val_to_index.erase(val);
+        
+        return true;
+    }
+    
+    int getRandom() {
+        int random_index = rand() % vals.size(); 
+        return vals[random_index];
+    }
+};
