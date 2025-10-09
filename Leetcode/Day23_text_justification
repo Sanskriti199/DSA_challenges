@@ -1,0 +1,70 @@
+class Solution {
+private:
+    string formatLine(const vector<string>& lineWords, int totalWordsLen, int maxWidth, bool isLastLine) {
+        int numWords = lineWords.size();
+        int totalSpaces = maxWidth - totalWordsLen;
+
+        if (numWords == 1 || isLastLine) {
+            string line = lineWords[0];
+            for (int i = 1; i < numWords; ++i) {
+                line += ' ';
+                line += lineWords[i];
+            }
+            line.append(maxWidth - line.length(), ' ');
+            return line;
+        }
+
+        int numGaps = numWords - 1;
+        int minSpacesPerGap = totalSpaces / numGaps;
+        int extraSpaces = totalSpaces % numGaps;
+
+        string line = "";
+        for (int i = 0; i < numWords; ++i) {
+            line += lineWords[i];
+
+            if (i < numWords - 1) {
+                line.append(minSpacesPerGap, ' ');
+                
+                if (extraSpaces > 0) {
+                    line += ' ';
+                    extraSpaces--;
+                }
+            }
+        }
+        return line;
+    }
+
+public:
+    vector<string> fullJustify(vector<string>& words, int maxWidth) {
+        vector<string> result;
+        int n = words.size();
+        int i = 0;
+
+        while (i < n) {
+            int j = i;
+            int currentWordsLen = 0;
+
+            while (j < n) {
+                int minSpacesNeeded = j - i;
+                int nextWordLen = words[j].length();
+                
+                if (currentWordsLen + minSpacesNeeded + nextWordLen <= maxWidth) {
+                    currentWordsLen += nextWordLen;
+                    j++;
+                } else {
+                    break;
+                }
+            }
+
+            vector<string> lineWords(words.begin() + i, words.begin() + j);
+            bool isLastLine = (j == n);
+
+            result.push_back(formatLine(lineWords, currentWordsLen, maxWidth, isLastLine));
+
+            i = j;
+        }
+
+        return result;
+    }
+};
+
