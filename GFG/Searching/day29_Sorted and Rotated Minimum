@@ -1,0 +1,20 @@
+class Solution {
+  public:
+    int findMin(vector<int>& arr) {
+        // complete the function here
+        int a=0, b=arr.size()-1;
+        
+        while(a<b){
+            if(arr[a]<arr[b])
+            return arr[a];
+            
+            int mid= (a+b)/2;
+            
+            if(arr[mid]>arr[b])
+            a=mid+1;
+            else
+            b=mid;
+        }
+        return arr[a];
+    }
+};
