@@ -1,0 +1,47 @@
+class Solution {
+private:
+vector<string> split(const string& s) {
+        vector<string> words;
+        stringstream ss(s);
+        string word;
+        while (ss >> word) {
+            words.push_back(word);
+        }
+        return words;
+    }
+
+public:
+    bool wordPattern(string pattern, string s) {
+        vector<string> words = split(s);
+
+        if (pattern.length() != words.size()) {
+            return false;
+        }
+
+        unordered_map<char, string> p_to_w;
+        unordered_map<string, char> w_to_p;
+
+        for (int i = 0; i < pattern.length(); ++i) {
+            char p_char = pattern[i];
+            string w_str = words[i];
+
+            if (p_to_w.count(p_char)) {
+                if (p_to_w[p_char] != w_str) {
+                    return false;
+                }
+            } else {
+                p_to_w[p_char] = w_str;
+            }
+
+            if (w_to_p.count(w_str)) {
+                if (w_to_p[w_str] != p_char) {
+                    return false;
+                }
+            } else {
+                w_to_p[w_str] = p_char;
+            }
+        }
+
+        return true;
+    }
+};
