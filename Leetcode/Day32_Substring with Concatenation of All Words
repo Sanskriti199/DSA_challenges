@@ -17,25 +17,37 @@ public:
 
         vector<int> result;
 
-        for (int i = 0; i <= s_len - total_len; ++i) {
+        for (int offset = 0; offset < word_len; ++offset) {
             unordered_map<string, int> words_found;
+            int words_count = 0;
             
-            for (int j = 0; j < num_words; ++j) {
-                int start_of_word = i + j * word_len;
-                string current_word = s.substr(start_of_word, word_len);
+            for (int i = offset; i <= s_len - word_len; i += word_len) {
+                string current_word = s.substr(i, word_len);
 
                 if (required_freq.count(current_word)) {
                     words_found[current_word]++;
+                    words_count++;
 
-                    if (words_found[current_word] > required_freq[current_word]) {
-                        break; 
+                    while (words_found[current_word] > required_freq[current_word]) {
+                        int left_word_start = i - (words_count - 1) * word_len;
+                        string left_word = s.substr(left_word_start, word_len);
+
+                        words_found[left_word]--;
+                        words_count--;
+                    }
+                    
+                    if (words_count == num_words) {
+                        result.push_back(i - total_len + word_len);
+
+                        int leftmost_word_start = i - total_len + word_len;
+                        string leftmost_word = s.substr(leftmost_word_start, word_len);
+                        
+                        words_found[leftmost_word]--;
+                        words_count--;
                     }
                 } else {
-                    break; 
-                }
-
-                if (j == num_words - 1) {
-                    result.push_back(i);
+                    words_found.clear();
+                    words_count = 0;
                 }
             }
         }
