@@ -1,0 +1,40 @@
+
+class Solution {
+  public:
+    // Function to search a given number in row-column sorted matrix.
+    bool binarysearch(const vector<int> &row, int x) {
+        // code here
+        int low=0;
+        int high=row.size()-1;
+        
+        while(low<=high){
+            int mid= low+(high-low)/2;
+            
+            if(row[mid]==x){
+                return true;
+                
+            }
+            else if(row [mid]<x){
+                low=mid+1;
+            }
+            else{
+                high=mid-1;
+            }
+        }
+        
+        return false;
+    }
+    
+    bool searchRowMatrix(vector<vector<int>> &mat, int x){
+        int n=mat.size();
+        if(n==0)
+        return false;
+        
+        for(int i=0;i<n;++i){
+            if(binarysearch(mat[i], x)){
+                return true;
+            }
+        }
+        return false;
+    }
+};
