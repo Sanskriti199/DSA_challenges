@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int findMinArrowShots(vector<vector<int>>& points) {
+        if (points.empty()) return 0;
+
+        sort(points.begin(), points.end(),
+             [](const vector<int>& a, const vector<int>& b) {
+                 return a[0] < b[0];
+             });
+
+        int arrows = 1;
+        long long curStart = points[0][0];
+        long long curEnd   = points[0][1];
+
+        for (int i = 1; i < (int)points.size(); ++i) {
+            long long s = points[i][0];
+            long long e = points[i][1];
+
+            if (s <= curEnd) {
+                curStart = max(curStart, s);
+                curEnd   = min(curEnd, e);
+            } else {
+                ++arrows;
+                curStart = s;
+                curEnd   = e;
+            }
+        }
+        return arrows;
+    }
+};
