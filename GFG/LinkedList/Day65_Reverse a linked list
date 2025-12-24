@@ -1,0 +1,53 @@
+/*
+class Node {
+ public:
+    int data ;
+    Node *next ;
+
+    Node(int x) {
+        data = x ;
+        next = NULL ;
+    }
+};
+*/
+
+class Solution {
+  public:
+    Node* reverseList(Node* head) {
+        // code here
+        stack<Node *>s;
+        Node *temp=head;
+        
+        while(temp->next!=NULL){
+            s.push(temp);
+            temp=temp->next;
+        }
+        
+        head=temp;
+        
+        while(!s.empty()){
+            
+            temp->next=s.top();
+            
+            s.pop();
+            
+            temp=temp->next;
+        }
+        
+        temp->next=NULL;
+        
+        return head;
+    }
+    
+    void printList(Node *node){
+        while(node!=nullptr){
+            cout<<node->data;
+            
+            if(node->next)
+            
+            cout<<"->";
+            
+            node=node->next;
+        }
+    }
+};
