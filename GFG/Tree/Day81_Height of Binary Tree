@@ -1,0 +1,27 @@
+/*
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    int height(Node* root) {
+        // code here
+        if(root==nullptr)
+        return -1;
+        
+        int lHeight= height(root->left);
+        int rHeight= height(root->right);
+        
+        return max(lHeight, rHeight)+1;
+    }
+};
