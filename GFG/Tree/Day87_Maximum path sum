@@ -1,0 +1,35 @@
+/*
+class Node {
+public:
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+class Solution {
+  public:
+    int findMaxSum(Node *root) {
+        // code here
+        int max_sum=INT_MIN;
+        solve(root, max_sum);
+        return max_sum;
+    }
+    
+    private:
+    int solve(Node* node, int &max_sum){
+        if(!node)
+        return 0;
+        
+        int left=max(0,solve(node->left, max_sum));
+        int right= max(0, solve(node->right, max_sum));
+        
+        max_sum=max(max_sum, node->data+left+right);
+        
+        return node->data+max(left,right);
+    }
+};
