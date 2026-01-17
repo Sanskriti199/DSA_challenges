@@ -1,0 +1,39 @@
+/*
+class Node {
+  public:
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+class Solution {
+  public:
+    int countAllPaths(Node *root, int k) {
+        // code here
+        unordered_map<long long, int> prefixSums;
+        prefixSums[0]=1;
+        return solve(root, k,0,prefixSums);
+    }
+    private:
+    int solve(Node* node, int k, long long currentSum, unordered_map<long long, int>& prefixSums){
+        if(!node)
+        return 0;
+        
+        currentSum+=node->data;
+        int count=prefixSums[currentSum-k];
+        
+        prefixSums[currentSum]++;
+        
+        count+= solve(node->left, k, currentSum, prefixSums);
+         count+= solve(node->right, k, currentSum, prefixSums);
+        
+        prefixSums[currentSum]--;
+        
+        return count;
+    }
+};
