@@ -1,0 +1,33 @@
+/*
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};
+*/
+
+class Solution {
+  public:
+  long prev= LONG_MIN;
+    bool isBST(Node* root) {
+        // code here
+        if(!root)
+        return true;
+        
+        if(!isBST(root->left))
+        return false;
+        
+        if(root->data<=prev)
+        return false;
+        prev=root->data;
+        
+        return isBST(root->right);
+        
+    }
+};
