@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        if (grid.empty() || grid[0].empty()) return 0;
+        int rows = grid.size();
+        int cols = grid[0].size();
+        int islands = 0;
+        
+        function<void(int, int)> dfs = [&](int r, int c) {
+            grid[r][c] = '0';
+            vector<pair<int, int>> dirs = {{0,1},{1,0},{0,-1},{-1,0}};
+            for (auto& d : dirs) {
+                int nr = r + d.first;
+                int nc = c + d.second;
+                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] == '1') {
+                    dfs(nr, nc);
+                }
+            }
+        };
+        
+        for (int r = 0; r < rows; ++r) {
+            for (int c = 0; c < cols; ++c) {
+                if (grid[r][c] == '1') {
+                    ++islands;
+                    dfs(r, c);
+                }
+            }
+        }
+        return islands;
+    }
+};
+
