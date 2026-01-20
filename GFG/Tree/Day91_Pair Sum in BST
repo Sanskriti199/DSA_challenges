@@ -1,0 +1,47 @@
+/*
+Node is as follows
+class Node {
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+  void storeInorder(Node* root, vector<int>&nodes){
+      if(!root)
+      return;
+      
+      storeInorder(root->left, nodes);
+      nodes.push_back(root->data);
+      storeInorder(root->right, nodes);
+  }
+    bool findTarget(Node *root, int target) {
+        // your code here.
+        vector<int>nodes;
+        storeInorder(root, nodes);
+        
+        int left=0;
+        int right=nodes.size()-1;
+        
+        while(left<right){
+            int currentSum=nodes[left]+nodes[right];
+            
+            if(currentSum==target){
+                return true;
+            }
+            else if(currentSum<target){
+                left++;
+            }else{
+                right--;
+            }
+        }
+        return false;
+    }
+};
