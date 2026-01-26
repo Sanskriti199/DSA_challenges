@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int snakesAndLadders(vector<vector<int>>& board) {
+        int n = board.size();
+        int target = n * n;
+        queue<int> q;
+        q.push(1);
+        vector<bool> visited(target + 1, false);
+        visited[1] = true;
+        int moves = 0;
+        
+        while (!q.empty()) {
+            int levelSize = q.size();
+            for (int i = 0; i < levelSize; ++i) {
+                int curr = q.front();
+                q.pop();
+                
+                if (curr == target) {
+                    return moves;
+                }
+                
+                for (int dice = 1; dice <= 6; ++dice) {
+                    int next = curr + dice;
+                    if (next > target) break;
+                    
+                    // Convert next to board[row][col]
+                    int row = (next - 1) / n;
+                    int col = (next - 1) % n;
+                    if (row % 2 == 1) {
+                        col = n - col - 1;
+                    }
+                    row = n - row - 1;
+                    
+                    int dest = (board[row][col] == -1) ? next : board[row][col];
+                    
+                    if (!visited[dest]) {
+                        visited[dest] = true;
+                        q.push(dest);
+                    }
+                }
+            }
+            ++moves;
+            }
+        return -1;
+ }
+};
