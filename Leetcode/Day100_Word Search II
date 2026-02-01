@@ -1,0 +1,70 @@
+struct TrieNode {
+    TrieNode* children[26];
+    bool isEnd;
+    TrieNode() {
+        memset(children, 0, sizeof(children));
+        isEnd = false;
+    }
+};
+
+class Trie {
+public:
+    TrieNode* root;
+    Trie() {
+        root = new TrieNode();
+    }
+    
+    void insert(string word) {
+        TrieNode* node = root;
+        for (char ch : word) {
+            int idx = ch - 'a';
+            if (!node->children[idx]) {
+                node->children[idx] = new TrieNode();
+            }
+            node = node->children[idx];
+        }
+        node->isEnd = true;
+    }
+    
+    void search(vector<vector<char>>& board, TrieNode* node, int i, int j, vector<string>& ans, string s) {
+        if (i < 0 || i >= board.size() || j < 0 || j >= board[0].size() || board[i][j] == '*' || !node->children[board[i][j] - 'a']) {
+            return;
+        }
+        
+        s += board[i][j];
+        node = node->children[board[i][j] - 'a'];
+        
+        if (node->isEnd) {
+            ans.push_back(s);
+            node->isEnd = false;
+        }
+        
+        char ch = board[i][j];
+        board[i][j] = '*';
+        
+        search(board, node, i + 1, j, ans, s);
+        search(board, node, i, j + 1, ans, s);
+        search(board, node, i - 1, j, ans, s);
+        search(board, node, i, j - 1, ans, s);
+        
+        board[i][j] = ch;
+    }
+};
+
+class Solution {
+public:
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        Trie trie;
+        for (string& word : words) {
+            trie.insert(word);
+        }
+        
+        vector<string> ans;
+        for (int i = 0; i < board.size(); ++i) {
+            for (int j = 0; j < board[0].size(); ++j) {
+                trie.search(board, trie.root, i, j, ans, "");
+            }
+        }
+        return ans;
+    }
+};
