@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int n;
+    vector<int> used_col, used_diag1, used_diag2;
+    
+    void backtrack(int r, int& ans) {
+        if (r == n) {
+            ++ans;
+            return;
+        }
+        for (int c = 0; c < n; ++c) {
+            int d1 = r - c + n - 1;
+            int d2 = r + c;
+            if (!used_col[c] && !used_diag1[d1] && !used_diag2[d2]) {
+                used_col[c] = 1;
+                used_diag1[d1] = 1;
+                used_diag2[d2] = 1;
+                backtrack(r + 1, ans);
+                used_col[c] = 0;
+                used_diag1[d1] = 0;
+                used_diag2[d2] = 0;
+            }
+        }
+    }
+    
+    int totalNQueens(int n) {
+        this->n = n;
+        int ans = 0;
+        used_col.assign(n, 0);
+        used_diag1.assign(2 * n - 1, 0);
+        used_diag2.assign(2 * n - 1, 0);
+        backtrack(0, ans);
+        return ans;
+}
+};
+
+
+
+
