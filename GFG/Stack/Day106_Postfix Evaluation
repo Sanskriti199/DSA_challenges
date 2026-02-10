@@ -1,0 +1,37 @@
+class Solution {
+  public:
+    int evaluatePostfix(vector<string>& arr) {
+        // code here
+        stack<int>st;
+        
+        for(const string& s:arr){
+            if(s=="+"|| s=="-"|| s=="*"||s=="/"||s=="^"){
+                int val2=st.top();
+                st.pop();
+                int val1=st.top();
+                st.pop();
+                
+                if(s=="+")
+                st.push(val1+val2);
+                else if
+                (s=="-")
+                st.push(val1-val2);
+                else if
+                (s=="*")
+                st.push(val1*val2);
+                else if(s=="/"){
+                    double res=(double)val1/val2;
+                    st.push(floor(res));
+                }
+                else if (s=="^"){
+                    st.push(pow(val1, val2));
+                }
+            }
+            else{
+                st.push(stoi(s));
+            }
+        }
+        return st.top();
+        
+    }
+};
