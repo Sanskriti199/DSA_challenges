@@ -1,0 +1,44 @@
+class Solution {
+  public:
+    string decodedString(string &s) {
+        // code here
+        stack<int>counts;
+        stack<string>resultStack;
+        string res="";
+        int idx=0;
+        
+        while(idx<s.length()){
+            if(isdigit(s[idx])){
+                int count=0;
+                while(isdigit(s[idx])){
+                    count=10*count+(s[idx]-'0');
+                    idx++;
+                }
+                counts.push(count);
+            }
+            else if(s[idx]=='['){
+                resultStack.push(res);
+                res="";
+                idx++;
+            }
+            else if(s[idx]==']'){
+                string temp=res;
+                res=resultStack.top();
+                resultStack.pop();
+                
+                int repeatTimes=counts.top();
+                counts.pop();
+                
+                for(int i=0; i<repeatTimes;i++){
+                    res+=temp;
+                }
+                idx++;
+            }
+            else{
+                res+=s[idx];
+                idx++;
+            }
+        }
+        return res;
+    }
+};
