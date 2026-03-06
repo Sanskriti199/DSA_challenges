@@ -1,0 +1,32 @@
+class Solution {
+  public:
+    int minJumps(vector<int>& a) {
+        // code here
+        int n=a.size();
+        
+        if(n<=1)
+        return 0;
+        
+        if(a[0]==0)
+        return -1;
+        
+        int j=0, ce=0,f=0;
+        
+        for(int i=0;i<n-1;i++){
+            f=max(f,i+a[i]);
+            
+            if(i==ce){
+                j++;
+                
+                ce=f;
+                
+                if(ce>=n-1)
+                break;
+                
+                if(ce<=i)
+                return -1;
+            }
+        }
+        return j;
+    }
+};
