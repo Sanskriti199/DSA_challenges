@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital) {
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> minCap;
+        priority_queue<int> maxProf;
+        
+        int n = profits.size();
+        for (int i = 0; i < n; ++i) {
+            minCap.push({capital[i], profits[i]});
+        }
+        
+        while (k > 0) {
+            while (!minCap.empty() && minCap.top().first <= w) {
+                maxProf.push(minCap.top().second);
+                minCap.pop();
+            }
+            
+            if (maxProf.empty()) {
+                break;
+            }
+            
+            w += maxProf.top();
+            maxProf.pop();
+            k--;
+        }
+        
+        return w;
+    }
+};
