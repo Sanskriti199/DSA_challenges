@@ -1,0 +1,27 @@
+class Solution {
+    private:
+    int robLinear(const vector<int>&arr, int start, int end){
+        int prev1=0;
+        int prev2=0;
+        
+        for(int i=start;i<=end;i++){
+            int current=max(prev1, prev2+arr[i]);
+            prev2=prev1;
+            prev1=current;
+        }
+        return prev1;
+    }
+  public:
+    int maxValue(vector<int>& arr) {
+        // code here
+        int n=arr.size();
+        
+        if(n==0)
+        return 0;
+        
+        if(n==1)
+        return arr[0];
+        
+        return max(robLinear(arr,0,n-2), robLinear(arr,1,n-1));
+    }
+};
