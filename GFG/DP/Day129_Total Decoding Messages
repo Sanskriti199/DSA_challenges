@@ -1,0 +1,31 @@
+class Solution {
+  public:
+    int countWays(string &digits) {
+        // Code here
+        int n=digits.length();
+        
+        if(n==0|| digits[0]=='0'){
+            return 0;
+        }
+        
+        int mod=1e9+7;
+        int prev2=1;
+        int prev1=1;
+        
+        
+        for(int i=1;i<n;i++){
+            int current=0;
+            
+            if(digits[i]!='0'){
+                current=prev1;
+            }
+            
+            if(digits[i-1]=='1'||(digits[i-1]=='2'&& digits[i]<='6')){
+                current= (current+prev2)%mod;
+            }
+            prev2=prev1;
+            prev1=current;
+        }
+        return prev1;
+    }
+};
