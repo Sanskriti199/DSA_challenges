@@ -4,17 +4,16 @@ public:
         if (x < 0 || (x > 0 && x % 10 == 0)) {
             return false;
         }
-        
-        int reversed = 0;
+
+        long long reversed = 0;   // <-- long long to avoid overflow
         int temp = x;
-        
+
         while (temp > 0) {
             reversed = reversed * 10 + temp % 10;
-                temp /= 10;
-            }
-        
-            return reversed == x;
-            }
-};
+            temp /= 10;
+        }
 
+        return reversed == x;
+    }
+};
 
