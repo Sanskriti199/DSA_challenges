@@ -5,7 +5,7 @@ public:
             return false;
         }
 
-        long long reversed = 0;   // <-- long long to avoid overflow
+        long long reversed = 0;   
         int temp = x;
 
         while (temp > 0) {
