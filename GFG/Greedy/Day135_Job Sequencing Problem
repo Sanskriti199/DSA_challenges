@@ -1,0 +1,64 @@
+class Solution {
+  public:
+  
+  struct Job{
+      int dead;
+      int profit;
+  };
+  
+  static bool comp(Job a, Job b){
+      return a.profit>b.profit;
+  }
+  
+  int find(int s, vector<int>&parent){
+      if(s==parent[s])
+      return s;
+      return parent[s]=find(parent[s], parent);
+  }
+    vector<int> jobSequencing(vector<int> &deadline, vector<int> &profit) {
+        // code here
+        int n=deadline.size();
+        
+        vector<Job>arr(n);
+        
+        int max_deadline=0;
+        
+        for(int i=0;i<n;i++){
+            
+            arr[i].dead=deadline[i];
+            arr[i].profit=profit[i];
+            
+            if(deadline[i]>max_deadline){
+                max_deadline=deadline[i];
+            }
+        }
+        
+        sort(arr.begin(), arr.end(),comp);
+        
+        vector<int> parent(max_deadline+1);
+        
+        for(int i=0;i<=max_deadline;i++){
+            parent[i]=i;
+        }
+        
+        int countJobs=0;
+        int jobProfit=0;
+        
+        for(int i=0;i<n;i++){
+            
+            int availableSlot=find(arr[i].dead, parent);
+            
+            
+            if(availableSlot>0){
+                
+                countJobs++;
+                
+                jobProfit+=arr[i].profit;
+                
+                parent[availableSlot]=find(availableSlot-1, parent);
+            }
+        }
+        
+        return{countJobs, jobProfit};
+    }
+};
