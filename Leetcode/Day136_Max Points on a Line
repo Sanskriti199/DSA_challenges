@@ -1,0 +1,56 @@
+class Solution {
+public:
+    int maxPoints(vector<vector<int>>& points) {
+        int n = points.size();
+        if (n <= 2) return n;
+        
+        int result = 1;
+        
+        for (int i = 0; i < n; ++i) {
+            unordered_map<pair<int, int>, int, PairHash> slopeCount;
+            int duplicates = 0;
+            int localMax = 0;
+            
+            for (int j = i + 1; j < n; ++j) {
+                if (points[i][0] == points[j][0] && points[i][1] == points[j][1]) {
+                    ++duplicates;
+                    continue;
+                }
+                
+                pair<int, int> slope = getSlope(points[i], points[j]);
+                slopeCount[slope]++;
+                localMax = max(localMax, slopeCount[slope]);
+            }
+            
+            int total = duplicates + 1 + localMax;  // +1 for the base point i
+            result = max(result, total);
+        }
+        
+        return result;
+    }
+    
+private:
+    pair<int, int> getSlope(const vector<int>& p1, const vector<int>& p2) {
+        int dx = p1[0] - p2[0];
+        int dy = p1[1] - p2[1];
+        
+        if (dx < 0) {  // Normalize sign
+            dx = -dx;
+            dy = -dy;
+        }
+        
+        int g = gcd(abs(dx), abs(dy));
+        return {dx / g, dy / g};
+    }
+    
+    int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+    
+    struct PairHash {
+        size_t operator()(const pair<int, int>& p) const {
+            return hash<long long>()((long long)p.first << 32 | (p.second & 0xFFFFFFFFLL));
+        }
+            };
+};
+
