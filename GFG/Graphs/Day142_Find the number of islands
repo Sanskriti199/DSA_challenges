@@ -1,0 +1,41 @@
+class Solution {
+    
+    private:
+    void dfs(int r,int c, int n, int m, vector<vector<char>>&grid){
+        if(r<0|| r>=n|| c<0||c>=m||grid[r][c]=='W'){
+            return;
+        }
+        grid[r][c]='W';
+        
+        for(int i=-1;i<=1;i++){
+            for(int j=-1;j<=1;j++){
+                if(i==0&&j==0)
+                continue;
+                
+                dfs(r+i, c+j, n,m,grid);
+            }
+        }
+    }
+  public:
+    int countIslands(vector<vector<char>>& grid) {
+        // Code here
+        int n=grid.size();
+        
+        if(n==0)
+        return 0;
+        
+        int m=grid[0].size();
+        int islandCount=0;
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]=='L'){
+                    islandCount++;
+                    dfs(i,j,n,m,grid);
+                }
+            }
+        }
+        return islandCount;
+        
+    }
+};
