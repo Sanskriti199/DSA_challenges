@@ -1,0 +1,33 @@
+class Solution {
+  public:
+  void dfs(int node, vector<int>adj[],vector<int>&vis){
+      vis[node]=1;
+      
+      for(auto it:adj[node]){
+          if(!vis[it]){
+              dfs(it,adj,vis);
+          }
+      }
+  }
+    bool isBridge(int V, vector<vector<int>> &edges, int c, int d) {
+        // Code here
+        
+        vector<int>adj[V];
+        
+        for(auto &e:edges){
+            int u=e[0];
+            int v=e[1];
+            
+            if((u==c&&v==d)||(u==d&&v==c))
+            continue;
+            
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        
+        vector<int>vis(V,0);
+        dfs(c,adj,vis);
+        
+        return !vis[d];
+    }
+};
