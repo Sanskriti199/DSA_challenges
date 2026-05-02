@@ -1,0 +1,39 @@
+class Solution {
+  public:
+    int minCost(vector<vector<int>>& houses) {
+        // code here
+        int n=houses.size();
+        
+        vector<int> a(n,INT_MAX);
+        vector<bool>b(n,false);
+        
+        a[0]=0;
+        
+        int c=0;
+        
+        for(int i=0;i<n;i++){
+            
+            int u=-1;
+            
+            for(int j=0;j<n;j++){
+                if(!b[j]&&(u==-1||a[j]<a[u])){
+                    u=j;
+                }
+            }
+            
+            b[u]=true;
+            c+=a[u];
+            
+            for(int j=0;j<n;j++){
+                
+                int d=abs(houses[u][0]-houses[j][0])+
+                abs(houses[u][1]-houses[j][1]);
+                
+                if(!b[j]&&d<a[j]){
+                    a[j]=d;
+                }
+            }
+        }
+        return c;
+    }
+};
