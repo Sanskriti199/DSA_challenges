@@ -1,0 +1,33 @@
+import heapq
+class Solution:
+    # Returns shortest distances from src to all other vertices
+    def dijkstra(self, V, edges, src):
+        
+        adj_list=[[] for _ in range(V)]
+        
+        for edge in edges:
+            u,v,w=edge
+       
+            adj_list[u].append((v,w))
+            adj_list[v].append((u,w))
+            
+        # code here
+        dist=[float('inf')]*V
+        dist[src]=0
+        pq=[(0,src)]
+        
+        
+        while pq:
+            d,u=heapq.heappop(pq)
+            
+            if d>dist[u]:
+                continue
+            
+            for v, weight in adj_list[u]:
+                
+                
+                if dist[u]+weight<dist[v]:
+                    dist[v]=dist[u]+weight
+                    heapq.heappush(pq, (dist[v], v))
+                    
+        return [d if d != float('inf') else -1 for d in dist]
