@@ -1,0 +1,74 @@
+#include <vector>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    string findOrder(vector<string> &words) {
+        unordered_map<char, unordered_set<char>> adj;
+        unordered_map<char, int> inDegree;
+
+        for (const string &word : words) {
+            for (char ch : word) {
+                if (inDegree.find(ch) == inDegree.end()) {
+                    inDegree[ch] = 0;
+                }
+            }
+        }
+
+        for (int i = 0; i < words.size() - 1; ++i) {
+            string w1 = words[i];
+            string w2 = words[i + 1];
+            int len = min(w1.length(), w2.length());
+            bool foundDifference = false;
+
+            for (int j = 0; j < len; ++j) {
+                if (w1[j] != w2[j]) {
+                    char u = w1[j];
+                    char v = w2[j];
+                    if (adj[u].find(v) == adj[u].end()) {
+                        adj[u].insert(v);
+                        inDegree[v]++;
+                    }
+                    foundDifference = true;
+                    break;
+                }
+            }
+
+            if (!foundDifference && w1.length() > w2.length()) {
+                return "";
+            }
+        }
+
+        queue<char> q;
+        for (auto const& [ch, degree] : inDegree) {
+            if (degree == 0) {
+                q.push(ch);
+            }
+        }
+
+        string order = "";
+        while (!q.empty()) {
+            char curr = q.front();
+            q.pop();
+            order += curr;
+
+            for (char neighbor : adj[curr]) {
+                inDegree[neighbor]--;
+                if (inDegree[neighbor] == 0) {
+                    q.push(neighbor);
+                }
+            }
+        }
+
+        if (order.length() < inDegree.size()) {
+            return "";
+        }
+
+        return order;
+    }
+};
