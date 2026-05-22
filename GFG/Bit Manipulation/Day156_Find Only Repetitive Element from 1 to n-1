@@ -1,0 +1,15 @@
+// User function Template for C++
+class Solution {
+  public:
+    int findDuplicate(vector<int>& arr) {
+        // code here
+        long long n=arr.size();
+        long long actualSum=0;
+        
+        for(int i=0;i<n;i++){
+            actualSum+=arr[i];
+        }
+        int expectedSum=((n-1)*n)/2;
+        return actualSum-expectedSum;
+    }
+};
