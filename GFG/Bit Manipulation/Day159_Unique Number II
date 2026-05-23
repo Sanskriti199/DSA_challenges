@@ -1,0 +1,29 @@
+class Solution {
+  public:
+    vector<int> singleNum(vector<int>& arr) {
+        // Code here.
+        int xorSum=0;
+        
+        for(int num:arr){
+            xorSum^=num;
+        }
+        
+        long long lowestSetBit=xorSum&-(long long)xorSum;
+        
+        int x=0;
+        int y=0;
+        
+        for(int num:arr){
+            if(num&lowestSetBit){
+                x^=num;
+            }
+            else{
+                y^=num;
+            }
+        }
+        if(x>y){
+            return {y,x};
+        }
+        return {x,y};
+    }
+};
