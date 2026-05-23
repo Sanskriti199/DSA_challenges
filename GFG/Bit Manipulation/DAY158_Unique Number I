@@ -1,0 +1,12 @@
+class Solution {
+  public:
+    int findUnique(vector<int> &arr) {
+        // code here
+        int uniqueElement=0;
+        
+        for(int num:arr){
+            uniqueElement^=num;
+        }
+        return uniqueElement;
+    }
+};
