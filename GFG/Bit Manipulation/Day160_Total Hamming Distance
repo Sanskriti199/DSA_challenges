@@ -1,0 +1,24 @@
+// User function template for C++
+class Solution {
+  public:
+    int totHammingDist(vector<int>& arr) {
+        // code here
+        int total_distance=0;
+        int n=arr.size();
+        
+        for(int i=0;i<32;i++){
+            int count_ones=0;
+            
+            for(int num:arr){
+                if((num>>i)&1){
+                    count_ones++;
+                }
+            }
+            int count_zeros=n-count_ones;
+            
+            total_distance+=count_ones*count_zeros;
+        }
+        return total_distance;
+        
+    }
+};
